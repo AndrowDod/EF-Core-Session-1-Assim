@@ -25,39 +25,6 @@ namespace EF_Core_Session_1_Assim.itiDbContext
             modelBuilder.ApplyConfiguration(new CourseConfiguration());
 
 
-            // primary key for Stud_Course
-            modelBuilder.Entity<Stud_Course>()
-                .HasKey(sc => new { sc.StudentID, sc.CourseId });
-
-            // foreign key for Course_Inst
-            modelBuilder.Entity<Course>()
-                .HasMany(C => C.courseInstructors)
-                .WithOne();
-
-            //primary key for Course_Inst
-            modelBuilder.Entity<Course_Inst>()
-                .HasKey(ci => new { ci.Inst_Id, ci.Course_Id });
-
-            // foreign key for Instructor
-            modelBuilder.Entity<Instructor>()
-                .HasMany(I => I.InstructorCourses)
-                .WithOne();
-
-            modelBuilder.Entity<Instructor>()
-                .HasOne(i => i.Department)
-                .WithMany(d => d.DeptInstructors)
-                .HasForeignKey(i => i.DepartmentID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Department>()
-                .HasOne(d => d.Manager)
-                .WithMany()
-                .HasForeignKey(d => d.InstructorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-
-
 
 
 

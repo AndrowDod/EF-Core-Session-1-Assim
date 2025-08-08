@@ -31,13 +31,8 @@ namespace EF_Core_Session_1_Assim.Entities
        
         public decimal? HourRate { get; set; }
 
-        [ForeignKey("CourseId")]
-        public int CourseId { get; set; }
 
-
-        public int DepartmentID { get; set; }
-        public Department Department { get; set; }
-        public ICollection<Course_Inst> InstructorCourses { get; set; } = new HashSet<Course_Inst>();
+   
 
     }
 }

@@ -36,10 +36,7 @@ namespace EF_Core_Session_1_Assim.Configurations
             student.Property(S => S.Age)
                 .IsRequired(false);
 
-            // relationships for Student and Stud_Course
-            student.HasMany(S => S.studentCourses)
-                .WithOne();
-
+         
 
 
         }

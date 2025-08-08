@@ -14,7 +14,6 @@ namespace EF_Core_Session_1_Assim.Entities
         public String LName { get; set; }
         public String Address { get; set; }
         public int? Age { get; set; }
-        public ICollection<Stud_Course> studentCourses { get; set; } = new HashSet<Stud_Course>(); // Foreign Key
 
 
     }

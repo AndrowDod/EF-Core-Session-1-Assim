@@ -35,11 +35,7 @@ namespace EF_Core_Session_1_Assim.Configurations
             
 
 
-            // relationships for Course and Stud_Course
-
-            course.HasMany(C => C.courseStudents)
-               .WithOne();
-
+            
         }
     }
 }

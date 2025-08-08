@@ -44,41 +44,28 @@ namespace EF_Core_Session_1_Assim.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("Top_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TopicsId")
+                    b.Property<int>("Top_Id")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("TopicsId");
 
                     b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Course_Inst", b =>
                 {
-                    b.Property<int>("Inst_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Course_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CourseID")
+                    b.Property<int>("Inst_Id")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Evaluate")
-                        .HasColumnType("decimal(18,2)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValue(0m);
 
-                    b.Property<int?>("InstructorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Inst_Id", "Course_Id");
-
-                    b.HasIndex("CourseID");
-
-                    b.HasIndex("InstructorId");
+                    b.HasKey("Course_Id", "Inst_Id");
 
                     b.ToTable("Course_Inst", (string)null);
                 });
@@ -94,7 +81,7 @@ namespace EF_Core_Session_1_Assim.Migrations
                     b.Property<DateTime>("HiringDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("InstructorId")
+                    b.Property<int>("Isn_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -103,9 +90,7 @@ namespace EF_Core_Session_1_Assim.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstructorId");
-
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Instructor", b =>
@@ -122,10 +107,7 @@ namespace EF_Core_Session_1_Assim.Migrations
                     b.Property<decimal?>("Bouns")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DepartmentID")
+                    b.Property<int>("Dept_Id")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("HourRate")
@@ -140,25 +122,23 @@ namespace EF_Core_Session_1_Assim.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentID");
-
                     b.ToTable("Instructor", "dbo");
                 });
 
             modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Stud_Course", b =>
                 {
-                    b.Property<int>("StudentID")
+                    b.Property<int>("Dept_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int>("Stud_id")
                         .HasColumnType("int");
 
                     b.Property<int>("Grade")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.HasKey("StudentID", "CourseId");
-
-                    b.HasIndex("CourseId");
+                    b.HasKey("Dept_ID", "Stud_id");
 
                     b.ToTable("Stud_Courses", (string)null);
                 });
@@ -178,7 +158,7 @@ namespace EF_Core_Session_1_Assim.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("Dept_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("FName")
@@ -193,9 +173,7 @@ namespace EF_Core_Session_1_Assim.Migrations
 
                     b.HasKey("St_Id");
 
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Student", (string)null);
                 });
 
             modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Topic", b =>
@@ -213,101 +191,6 @@ namespace EF_Core_Session_1_Assim.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topics", (string)null);
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Course", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Topic", "Topics")
-                        .WithMany("TopicCourses")
-                        .HasForeignKey("TopicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Topics");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Course_Inst", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Course", null)
-                        .WithMany("courseInstructors")
-                        .HasForeignKey("CourseID");
-
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Instructor", null)
-                        .WithMany("InstructorCourses")
-                        .HasForeignKey("InstructorId");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Department", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Instructor", "Manager")
-                        .WithMany()
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Instructor", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Department", "Department")
-                        .WithMany("DeptInstructors")
-                        .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Stud_Course", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Course", null)
-                        .WithMany("courseStudents")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Student", null)
-                        .WithMany("studentCourses")
-                        .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Student", b =>
-                {
-                    b.HasOne("EF_Core_Session_1_Assim.Entities.Department", null)
-                        .WithMany("DeptStudents")
-                        .HasForeignKey("DepartmentId");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Course", b =>
-                {
-                    b.Navigation("courseInstructors");
-
-                    b.Navigation("courseStudents");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Department", b =>
-                {
-                    b.Navigation("DeptInstructors");
-
-                    b.Navigation("DeptStudents");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Instructor", b =>
-                {
-                    b.Navigation("InstructorCourses");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Student", b =>
-                {
-                    b.Navigation("studentCourses");
-                });
-
-            modelBuilder.Entity("EF_Core_Session_1_Assim.Entities.Topic", b =>
-                {
-                    b.Navigation("TopicCourses");
                 });
 #pragma warning restore 612, 618
         }
